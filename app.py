@@ -1,6 +1,6 @@
 import os
 
-from flask_api import FlaskAPI
+from flask_api import FlaskAPI, status
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
@@ -37,26 +37,30 @@ class Gas(AbstractBaseModel):
 def get_ether():
     data = {}
 
-    ether = Ether.query.filter_by().all()[-1]
+    try:
+        ether = Ether.query.filter_by().all()[-1]
+        data['created'] = ether.created
+        data['price'] = ether.price_usd
+        return data
 
-    data['created'] = ether.created
-    data['price'] = ether.price_usd
-
-    return data
+    except:
+        return {"error": "not found"}, status.HTTP_404_NOT_FOUND
 
 
 @app.route('/gas/', methods=['GET'])
 def get_gas():
     data = {}
 
-    gas = Gas.query.filter_by().all()[-1]
+    try:
+        gas = Gas.query.filter_by().all()[-1]
+        data['created'] = gas.created
+        data['safe_gas_price'] = gas.safe_gas_price
+        data['propose_gas_price'] = gas.propose_gas_price
+        data['fast_gas_price'] = gas.fast_gas_price
+        return data
 
-    data['created'] = gas.created
-    data['safe_gas_price'] = gas.safe_gas_price
-    data['propose_gas_price'] = gas.propose_gas_price
-    data['fast_gas_price'] = gas.fast_gas_price
-
-    return data
+    except:
+        return {"error": "not found"}, status.HTTP_404_NOT_FOUND
 
 
 if __name__ == "__main__":

@@ -1,3 +1,4 @@
+import sys
 import time
 import requests
 
@@ -18,8 +19,7 @@ class DataWorker:
             url=f'https://api.etherscan.io/api?module=gastracker&'
                 f'action=gasoracle&apikey={self.ether_api_token}'
         )
-
-        print(f'GAS: {response.json()}')
+        # TODO
         gas = app.Gas(
             safe_gas_price=response.json()['result']['SafeGasPrice'],
             propose_gas_price=response.json()['result']['ProposeGasPrice'],
@@ -29,6 +29,7 @@ class DataWorker:
         db.session.add(gas)
         db.session.commit()
 
+        sys.stdout.write(f'GAS: {response.json()}')
         return True
 
     def get_ether(self):
@@ -36,6 +37,7 @@ class DataWorker:
             url=f'https://api.etherscan.io/api?module=stats&'
                 f'action=ethprice&apikey={self.ether_api_token}'
         )
+        # TODO
         ether = app.Ether(
             price_usd=response.json()['result']['ethusd']
         )
@@ -43,7 +45,7 @@ class DataWorker:
         db.session.add(ether)
         db.session.commit()
 
-        print(f'ETHER: {response.json()}')
+        sys.stdout.write(f'ETHER: {response.json()}')
         return True
 
 
