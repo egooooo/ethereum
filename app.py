@@ -7,10 +7,10 @@ from datetime import datetime
 
 app = FlaskAPI(__name__)
 
-file_path = f'{os.path.abspath(os.getcwd())}/db/db.sqlite3'
+db_uri = f'{os.path.abspath(os.getcwd())}/db/db.sqlite3'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{file_path}'
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_uri}'
 
 db = SQLAlchemy(app)
 

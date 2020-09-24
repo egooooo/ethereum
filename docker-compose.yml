@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   app:
     build: .
@@ -10,17 +10,10 @@ services:
      - sqlitedb
     links:
      - sqlitedb
-  worker:
-    build: .
-    volumes:
-      - .:/worker
-    depends_on:
-      - sqlitedb
-    links:
-      - sqlitedb
+
   sqlitedb:
     image: sqlite3:latest
-    ports:
-        - 27017:27017
+    stdin_open: true
+    tty: true
     volumes:
       - ./db/:/root/db/
