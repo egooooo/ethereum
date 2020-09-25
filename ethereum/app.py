@@ -1,8 +1,9 @@
 import os
 
+from datetime import datetime
+
 from flask_api import FlaskAPI, status
 from flask_sqlalchemy import SQLAlchemy
-from .models import Ether, Gas
 
 
 app = FlaskAPI(__name__)
@@ -13,6 +14,24 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_uri}'
 
 db = SQLAlchemy(app)
+
+
+class AbstractBaseModel(db.Model):
+    __abstract__ = True
+
+    id = db.Column(db.Integer, primary_key=True)
+    created = db.Column(db.DateTime, default=datetime.now)
+    updated = db.Column(db.DateTime, default=datetime.now)
+
+
+class Ether(AbstractBaseModel):
+    price_usd = db.Column(db.String(31))
+
+
+class Gas(AbstractBaseModel):
+    safe_gas_price = db.Column(db.String(13))
+    propose_gas_price = db.Column(db.String(13))
+    fast_gas_price = db.Column(db.String(13))
 
 
 @app.route('/ether/', methods=['GET'])

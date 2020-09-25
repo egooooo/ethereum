@@ -1,7 +1,7 @@
 import time
 import requests
 
-from ethereum import app
+from .app import app
 
 
 class DataWorker:
