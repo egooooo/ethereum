@@ -1,1 +1,1 @@
-# ethereum
+docker-compose up --build

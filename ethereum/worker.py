@@ -19,14 +19,17 @@ class DataWorker:
                 f'action=gasoracle&apikey={self.ether_api_token}'
         )
         # TODO
-        gas = app.Gas(
-            safe_gas_price=response.json()['result']['SafeGasPrice'],
-            propose_gas_price=response.json()['result']['ProposeGasPrice'],
-            fast_gas_price=response.json()['result']['FastGasPrice']
-        )
-        db = app.db
-        db.session.add(gas)
-        db.session.commit()
+        try:
+            gas = app.Gas(
+                safe_gas_price=response.json()['result']['SafeGasPrice'],
+                propose_gas_price=response.json()['result']['ProposeGasPrice'],
+                fast_gas_price=response.json()['result']['FastGasPrice']
+            )
+            db = app.db
+            db.session.add(gas)
+            db.session.commit()
+        except:
+            print(f'Wrong gas data')
 
 
     def get_ether(self):
@@ -35,12 +38,15 @@ class DataWorker:
                 f'action=ethprice&apikey={self.ether_api_token}'
         )
         # TODO
-        ether = app.Ether(
-            price_usd=response.json()['result']['ethusd']
-        )
-        db = app.db
-        db.session.add(ether)
-        db.session.commit()
+        try:
+            ether = app.Ether(
+                price_usd=response.json()['result']['ethusd']
+            )
+            db = app.db
+            db.session.add(ether)
+            db.session.commit()
+        except:
+            print(f'Wrong ether data')
 
 
 if __name__ == "__main__":

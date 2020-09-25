@@ -3,6 +3,7 @@ import os
 from datetime import datetime
 
 from flask_api import FlaskAPI, status
+from flask import jsonify
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -36,13 +37,18 @@ class Gas(AbstractBaseModel):
 
 @app.route('/ether/', methods=['GET'])
 def get_ether():
+
     data = {}
 
     try:
         ether = Ether.query.filter_by().all()[-1]
         data['created'] = ether.created
         data['price'] = ether.price_usd
-        return data
+
+        response = jsonify(data)
+        response.headers.set('Access-Control-Allow-Origin', '*')
+
+        return response
 
     except:
         return {"error": "not found"}, status.HTTP_404_NOT_FOUND
@@ -58,7 +64,11 @@ def get_gas():
         data['safe_gas_price'] = gas.safe_gas_price
         data['propose_gas_price'] = gas.propose_gas_price
         data['fast_gas_price'] = gas.fast_gas_price
-        return data
+
+        response = jsonify(data)
+        response.headers.set('Access-Control-Allow-Origin', '*')
+
+        return response
 
     except:
         return {"error": "not found"}, status.HTTP_404_NOT_FOUND
