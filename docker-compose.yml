@@ -28,6 +28,13 @@ services:
       - -u
       - ethereum/worker.py
 
+  web:
+    image: nginx:1.17.4-alpine
+    volumes:
+      - ./front:/usr/share/nginx/html
+    ports:
+      - "8081:80"
+
   sqlitedb:
     image: nouchka/sqlite3:latest
     stdin_open: true
