@@ -13,7 +13,7 @@ services:
     entrypoint:
      - python3
      - -u
-     - app.py
+     - ethereum/app.py
 
   worker:
     build: .
@@ -26,7 +26,7 @@ services:
     entrypoint:
       - python3
       - -u
-      - worker.py
+      - ethereum/worker.py
 
   sqlitedb:
     image: nouchka/sqlite3:latest
