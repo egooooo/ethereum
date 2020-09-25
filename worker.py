@@ -29,8 +29,6 @@ class DataWorker:
         db.session.add(gas)
         db.session.commit()
 
-        sys.stdout.write(f'GAS: {response.json()}')
-        return True
 
     def get_ether(self):
         response = requests.get(
@@ -45,9 +43,6 @@ class DataWorker:
         db.session.add(ether)
         db.session.commit()
 
-        sys.stdout.write(f'ETHER: {response.json()}')
-        return True
-
 
 if __name__ == "__main__":
     worker = DataWorker()
@@ -55,4 +50,5 @@ if __name__ == "__main__":
     while True:
         time.sleep(5)
         print(f"Tick")
+        # sys.stdout.write(f'Tick')
         worker.run()

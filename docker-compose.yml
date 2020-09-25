@@ -10,9 +10,26 @@ services:
      - sqlitedb
     links:
      - sqlitedb
+    entrypoint:
+     - python3
+     - -u
+     - app.py
+
+  worker:
+    build: .
+    volumes:
+      - .:/app
+    depends_on:
+      - sqlitedb
+    links:
+      - sqlitedb
+    entrypoint:
+      - python3
+      - -u
+      - worker.py
 
   sqlitedb:
-    image: sqlite3:latest
+    image: nouchka/sqlite3:latest
     stdin_open: true
     tty: true
     volumes:
