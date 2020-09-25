@@ -1,7 +1,7 @@
 import time
 import requests
 
-from .app import app
+import app
 
 
 class DataWorker:
